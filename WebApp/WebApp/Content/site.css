@@ -1,0 +1,17 @@
+﻿body {
+}
+
+#allItems {
+    width: 50%;
+    float: left;
+}
+
+#addItem {
+    width: 50%;
+    float: right;
+}
+
+.block{
+    border-bottom:1px solid black;
+    margin:0 20px 0 20px;
+}

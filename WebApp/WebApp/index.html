@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html ng-app="main">
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="Content/site.css" rel="stylesheet" />
+</head>
+<body ng-controller="list">
+    <div id="allItems">
+        <div class="block" ng-repeat="item in Items track by $index">
+
+            <p>Tittle: {{item.tittle}}</p>
+            <p>Task: {{item.task}}</p>
+            <p>Author: {{item.author}} - Date of created: {{item.createDate}}</p>
+            <button ng-click=removeItem($index,item)>DELETE</button>
+        </div>
+    </div>
+
+    <div id="addItem">
+        <label for="tittle">Tittle:</label>
+        <p>
+            <input type="text" id="tittle" ng-model="tittle" placeholder="write tittle" />
+        </p>
+        <label for="discription">Discription:</label>
+        <p>
+            <textarea id="discription" ng-model="task" rows="10" cols="45" name="text"></textarea>
+        </p>
+        <label for="author">Author:</label>
+        <p>
+            <input type="text" id="author" ng-model="author" placeholder="name">
+            <button ng-click=addItem()>ADD</button>
+        </p>
+    </div>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/main.js"></script>
+</body>
+</html>
