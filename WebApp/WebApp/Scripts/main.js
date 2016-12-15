@@ -4,36 +4,34 @@
         getAll: function () {
             return $http.get('/api/Items');
         },
-        save: function (data) {
+        add: function (data) {
             return $http.post('/api/Items', data);
         },
         remove: function (id) {
-            return $http.delete('/api/Items/'+id);
+            return $http.delete('/api/Items/' + id);
+        },
+        update: function (id, data) {
+            return $http.put('/api/Items/' + id, data);
         }
     }
 }]);
 
 angular.module('main', ['AppServiceModule'])
-.controller('list', [
+.controller('items', [
 '$scope', '$http', 'ItemServise',
 function ($scope, $http, ItemServise) {
 
-    $scope.newItem = '';
-    $scope.MyFunc = function () {
-        alert("click");
-    };
     $scope.addItem = function () {
-        $scope.newItem = {
-            id: $scope.id,
+        var newItem = {
             author: $scope.author,
             tittle: $scope.tittle,
             task: $scope.task,
             createDate: new Date().toDateString()
         }
-        $scope.Items.push($scope.newItem);
-        ItemServise.save($scope.newItem);
+        $scope.Items.push(newItem);
+        ItemServise.add(newItem);
 
-        $scope.newImg = '';
+        clear();
     }
 
     $scope.removeItem = function (index, elem) {
@@ -42,6 +40,19 @@ function ($scope, $http, ItemServise) {
         ItemServise.remove(elem.id)
     }
 
+    $scope.updateItem = function (elem) {
+        elem.author = $scope.author;
+        elem.tittle = $scope.tittle;
+        elem.task = $scope.task;
+        ItemServise.update(elem.id, elem)
+    }
+
+    function clear() {
+        $scope.author = '';
+        $scope.tittle = '';
+        $scope.task = '';
+
+    }
     function init() {
         ItemServise.getAll().then(function (response) {
             $scope.Items = [];
