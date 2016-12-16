@@ -5,7 +5,7 @@ using System.Web.Http;
 
 namespace SecondWebAPI.Controllers
 {
-   // [Authorize]
+    [Authorize]
     public class HomeController : ApiController
     {
         private HttpResponseMessage response;

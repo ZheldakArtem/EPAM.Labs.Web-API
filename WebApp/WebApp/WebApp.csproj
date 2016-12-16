@@ -109,6 +109,7 @@
     <Compile Include="Mapper\Expansion.cs" />
     <Compile Include="Models\ClientItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidAttr\ExcludeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

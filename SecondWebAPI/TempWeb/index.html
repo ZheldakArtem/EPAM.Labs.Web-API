@@ -9,37 +9,32 @@
 </head>
 <body>
     <div class="row" ng-controller="register-controller">
-        
-        <div ng-show="registerBlock" class="ng-hide">
-            <div  class="col-md-3 col-md-offset-2">
-                <h3>Registration</h3>
-                <label for="email">Enter email</label><br />
-                <input class="form-control" type="email" ng-model="email" /> <br />
-                <label for="password">Enter password</label><br />
-                <input class="form-control" type="password" ng-model="password" /><br />
-                <label for="confirmpassword">Confirm password</label><br />
-                <input class="form-control" type="password" ng-model="confirmpassword" /><br />
-                <button class="btn btn-default" ng-click=register()>Registration</button>
-            </div>
-            <div class="col-md-3 col-md-offset-2">
-                <h3>LogIn</h3>
-                <label for="emailLogin">Enter email</label><br />
-                <input class="form-control" type="email" id="emailLogin" /> <br />
-                <label for="passwordLogin">Enter password</label><br />
-                <input class="form-control" type="password" id="passwordLogin" /><br />
-                <button class="btn btn-default" id="submitLogin" ng-click=toggle()>Login</button>
-            </div>
+        <div ng-show="registerBlock" class="ng-hide col-md-3 col-md-offset-2">
+            <h3>LogIn</h3>
+            <label for="emailLogin">Enter email</label><br />
+            <input class="form-control" type="email" ng-model="emailLogin" /> <br />
+            <label for="passwordLogin">Enter password</label><br />
+            <input class="form-control" type="password" ng-model="passwordLogin" /><br />
+            <button class="btn btn-default" ng-click=logIn()>Login</button>
+        </div>
+
+        <div ng-show="registerBlock" class="ng-hide col-md-3 col-md-offset-2">
+            <h3>Registration</h3>
+            <label for="email">Enter email</label><br />
+            <input class="form-control" type="email" ng-model="email" /> <br />
+            <label for="password">Enter password</label><br />
+            <input class="form-control" type="password" ng-model="password" /><br />
+            <label for="confirmpassword">Confirm password</label><br />
+            <input class="form-control" type="password" ng-model="confirmpassword" /><br />
+            <button class="btn btn-default" ng-click=register()>Registration</button>
         </div>
         <div ng-show="logOut" class="ng-hide  col-md-1">
-            <button class="btn btn-default" id="logOut" ng-click=toggle()>logOut</button>
+            <button class="btn btn-default" ng-click=toggle()>logOut</button>
         </div>
-       
-
-        
-
     </div>
     <div ng-controller="item-controller">
-        <div class="container">
+        <button class="btn btn-default" ng-click=load()>Load</button>
+        <div id="container">
             <div id="allItems">
                 <div class="block" ng-repeat="item in Items track by $index">
                     <p><u>Tittle</u>: {{item.tittle}}</p>
@@ -57,7 +52,7 @@
                 </p>
                 <label for="discription">Discription</label>
                 <p>
-                    <textarea  id="discription" class="form-control" ng-model="task" rows="10" cols="45" name="text"></textarea>
+                    <textarea id="discription" class="form-control" ng-model="task" rows="10" cols="45" name="text"></textarea>
                 </p>
                 <label for="author">Author</label>
                 <p>

@@ -14,14 +14,14 @@ function ($scope, $http, ItemServise) {
 
         ItemServise.add(newItem).then(
             function () {
-                init();
+                $scope.load();
             },
              function () {
                  alert("incorrect item!!!")
              });
 
         clear();
-        
+
     }
 
     $scope.removeItem = function (index, elem) {
@@ -61,7 +61,7 @@ function ($scope, $http, ItemServise) {
         $scope.Items = [];
     }
 
-    function init() {
+    $scope.load = function () {
         ItemServise.getAll().then(function (response) {
             $scope.Items = [];
             var data = JSON.parse(response.data.Result);
@@ -77,5 +77,4 @@ function ($scope, $http, ItemServise) {
         });
     }
 
-    init();
 }]);

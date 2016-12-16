@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebApp.ValidAttr;
 
 namespace WebApp.Models
 {
     public class ClientItem
     {
-        [Required(ErrorMessage ="Id lalaalw[ew[ wef")]
+        [Required(ErrorMessage = "Id lalaalw[ew[ wef")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Author lalaalw[ew[ wef")]
         [StringLength(30, ErrorMessage = "The question should contain from 4 to 30 characters.", MinimumLength = 4)]
+        [Exclude(new char[] { '-', '$'})]
         public string Author { get; set; }
 
         [Required(ErrorMessage = "Tittle lalaalw[ew[ wef")]
