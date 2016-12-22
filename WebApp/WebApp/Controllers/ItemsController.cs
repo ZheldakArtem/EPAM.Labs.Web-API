@@ -1,10 +1,10 @@
 ﻿using DAL;
+using Model;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Web.Http;
-using WebApp.Mapp;
-using WebApp.Models;
+
 
 namespace WebApp.Controllers
 {
@@ -26,7 +26,7 @@ namespace WebApp.Controllers
         }
 
         [HttpPut]
-        public IHttpActionResult Put(int id, ClientItem item)
+        public IHttpActionResult Put(int id, Item item)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace WebApp.Controllers
                 return BadRequest();
             }
 
-            var notFound = repository.UpDate(id, item.ToItem());
+            var notFound = repository.UpDate(id, item);
             if (!notFound)
             {
                 return NotFound();
@@ -48,13 +48,13 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Post(ClientItem item)
+        public IHttpActionResult Post(Item item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var bad = repository.Add(item.ToItem());
+            var bad = repository.Add(item);
 
             if (!bad)
             {

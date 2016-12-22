@@ -5,43 +5,39 @@
     <meta charset="utf-8" />
     <link href="Content/site.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
-
 </head>
 <body>
-    <div class="row" ng-controller="register-controller">
-        
-        <div ng-show="registerBlock" class="ng-hide">
-            <div  class="col-md-3 col-md-offset-2">
-                <h3>Registration</h3>
-                <label for="email">Enter email</label><br />
-                <input class="form-control" type="email" ng-model="email" /> <br />
-                <label for="password">Enter password</label><br />
-                <input class="form-control" type="password" ng-model="password" /><br />
-                <label for="confirmpassword">Confirm password</label><br />
-                <input class="form-control" type="password" ng-model="confirmpassword" /><br />
-                <button class="btn btn-default" ng-click=register()>Registration</button>
+    <div class="container">
+        <div ng-controller="login-controller">
+            <div ng-show=!toggle>
+                <div class="form-group row">
+                    <label for="userName" class="col-md-2 col-form-label">Login:</label>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="userName" ng-model="userName" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-md-2 col-form-label">Password:</label>
+                    <div class="col-md-5">
+                        <input class="form-control" type="password" id="password" ng-model="password" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-2 col-md-offset-2">
+                        <button type="submit" class="btn btn-default" ng-click=logIn(userName,password)>LOGIN</button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3 col-md-offset-2">
-                <h3>LogIn</h3>
-                <label for="emailLogin">Enter email</label><br />
-                <input class="form-control" type="email" id="emailLogin" /> <br />
-                <label for="passwordLogin">Enter password</label><br />
-                <input class="form-control" type="password" id="passwordLogin" /><br />
-                <button class="btn btn-default" id="submitLogin" ng-click=toggle()>Login</button>
+            <div class="row">
+                <div class="col-md-offset-11 col-md-12">
+                    <button class="btn btn-info" ng-show=toggle ng-click=logOut()>LOGOUT</button>
+                </div>
             </div>
         </div>
-        <div ng-show="logOut" class="ng-hide  col-md-1">
-            <button class="btn btn-default" id="logOut" ng-click=toggle()>logOut</button>
-        </div>
-       
 
-        
-
-    </div>
-    <div ng-controller="item-controller">
-        <div class="container">
+        <div class="row" ng-controller="item-controller" ng-show="showItem">
             <div id="allItems">
-                <div class="block" ng-repeat="item in Items track by $index">
+                <div class="col-md-6 row block" ng-repeat="item in Items track by $index">
                     <p><u>Tittle</u>: {{item.tittle}}</p>
                     <p><u>Task</u>: {{item.task}}</p>
                     <p><u>Author</u>: {{item.author}} - Date of created: {{item.createDate}}</p>
@@ -50,26 +46,40 @@
                 </div>
             </div>
 
-            <div id="addItem">
-                <label for="tittle">Tittle</label>
-                <p>
-                    <input class="form-control" type="text" id="tittle" ng-model="tittle" placeholder="write tittle" />
-                </p>
-                <label for="discription">Discription</label>
-                <p>
-                    <textarea  id="discription" class="form-control" ng-model="task" rows="10" cols="45" name="text"></textarea>
-                </p>
-                <label for="author">Author</label>
-                <p>
-                    <input class="form-control" type="text" id="author" ng-model="author" placeholder="name">
-                    <button class="btn btn-default" ng-click=addItem()>ADD</button>
-                </p>
+            <div class="col-md-6" id="addItem">
+                <div class="form-group row">
+                    <label for="tittle" class="col-md-2 col-form-label">Tittle:</label>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="tittle" ng-model="tittle" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="discription" class="col-md-2 col-form-label">Discription:</label>
+                    <div class="col-md-5">
+                        <textarea id="discription" class="form-control" ng-model="task" rows="10" cols="45" name="text"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="author" class="col-md-2 col-form-label">Author:</label>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="author" ng-model="author">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5 col-md-offset-2">
+                        <button class="btn btn-default" ng-click=addItem()>ADD</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="Scripts/angular/angular.js"></script>
-    <script src="Scripts/controllers/item-controller.js"></script>
-    <script src="Scripts/services/item-service.js"></script>
-    <script src="Scripts/controllers/register-controller.js"></script>
+    <script src="Scripts/app.js"></script>
+    <script src="Scripts/controllers/item/item-controller.js"></script>
+    <script src="Scripts/controllers/login/login-controller.js"></script>
+    <script src="Scripts/services/item/item-service.js"></script>
+    <script src="Scripts/services/login/login-service.js"></script>
+    <script src="Scripts/factory/factoryApp.js"></script>
 </body>
 </html>

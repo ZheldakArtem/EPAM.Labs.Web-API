@@ -1,149 +1,79 @@
-﻿using System;
+﻿using SecondWebAPI.Authentication;
+using SecondWebAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using SecondWebAPI.Request;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace SecondWebAPI.Controllers
 {
-   // [Authorize]
+    [Authorize]
     public class HomeController : ApiController
     {
-        private HttpResponseMessage response;
-        // GET: api/Home
-        public IHttpActionResult Get()
+        private Requestor request;
+
+        public HomeController()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:65355/");
-
-                    response = client.GetAsync("api/Items").Result;
-
-                    response.EnsureSuccessStatusCode();
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-
-            return Ok(response.Content.ReadAsStringAsync());
+            this.request = new Requestor(this);
         }
 
-        //public async Task<IHttpActionResult> GetAsync()
-        //{
-        //    HttpClient client = new HttpClient();
-        //    HttpResponseMessage response;
-
-        //    try
-        //    {
-        //        response = await client.GetAsync("http://localhost:65355/api/Items");
-
-        //        foreach (var item in "1qwefrwqef223")
-        //        {
-        //            var d = item;
-        //        }
-
-        //       // response = await s;
-        //        response.EnsureSuccessStatusCode();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    return Ok(response.Content.ReadAsStringAsync());
-        //}
-        // GET: api/Home/5
-
-        public IHttpActionResult Get(int id)
+        protected virtual new UserPrincipal User
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:65355/");
-                    response = client.GetAsync($"api/Items/{id}").Result;
+            get { return HttpContext.Current.User as UserPrincipal; }
+        }
 
-                    response.EnsureSuccessStatusCode();
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-            return Ok(response.Content.ReadAsStringAsync());
+        // GET: api/Home
+        [HttpGet]
+        public async Task<IHttpActionResult> GetAsync()
+        {
+            return await request.Get();
+        }
+
+        // GET: api/Home/5
+        [HttpGet]
+        public async Task<IHttpActionResult> GetAsync(int id)
+        {
+            return await request.Get(id);
         }
 
         // POST: api/Home
-        public IHttpActionResult Post([FromBody]object item)
+        [HttpPost]
+        public async Task<IHttpActionResult> PostAsync([FromBody]object item)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:65355/");
-
-                    client.DefaultRequestHeaders.Accept.Add(
-                       new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    response = client.PostAsJsonAsync($"api/Items/", item).Result;
-
-                    response.EnsureSuccessStatusCode();
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-            return Ok(response.StatusCode);
+            return await request.Post(item);
         }
 
         // PUT: api/Home/5
-        public IHttpActionResult Put(int id, [FromBody]object item)
+        [HttpPut]
+        public async Task<IHttpActionResult> PutAsync(int id, [FromBody]object item)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:65355/");
-
-                    client.DefaultRequestHeaders.Accept.Add(
-                       new MediaTypeWithQualityHeaderValue("application/json"));
-                    
-                    response = client.PutAsJsonAsync($"api/Items/{id}", item).Result;
-
-                    response.EnsureSuccessStatusCode();
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-            return Ok(response.StatusCode);
+            return await request.Put(id, item);
         }
 
         // DELETE: api/Home/5
-        public IHttpActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    client.BaseAddress = new Uri("http://localhost:65355/");
+            return await request.Delete(id);
+        }
 
-                    response = client.DeleteAsync($"api/Items/{id}").Result;
+        [NonAction]
+        public new BadRequestErrorMessageResult BadRequest(string message)
+        {
+            return base.BadRequest(message);
+        }
 
-                    response.EnsureSuccessStatusCode();
-                }
-                catch
-                {
-                    return BadRequest();
-                }
-            }
-
-            return Ok(response.Content.ReadAsStringAsync());
+        [NonAction]
+        public new OkNegotiatedContentResult<T> Ok<T>(T content)
+        {
+            return base.Ok(content);
         }
     }
 }
