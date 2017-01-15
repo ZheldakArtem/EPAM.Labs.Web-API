@@ -1,0 +1,1 @@
+﻿var path = '/api/Home/';

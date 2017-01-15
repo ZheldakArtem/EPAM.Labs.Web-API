@@ -1,39 +1,28 @@
-﻿using System;
+﻿using DAL;
+using Model;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
-using System.Web.Http.Description;
-using WebApp;
-using WebApp.Models;
+
 
 namespace WebApp.Controllers
 {
     public class ItemsController : ApiController
     {
-        private ItemContext db = new ItemContext();
+        private IRepository<Item> repository = new ItemReopsitory();
 
         [HttpGet]
-        public IEnumerable<Item> Get()
+        public IHttpActionResult Get()
         {
-            db.SaveChanges();
-            return db.Items;
+            return Ok(repository.Get());
         }
 
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            Item item = db.Items.Find(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(item);
+            return Ok(repository.Get(id));
         }
 
         [HttpPut]
@@ -49,18 +38,10 @@ namespace WebApp.Controllers
                 return BadRequest();
             }
 
-            db.Entry(item).State = EntityState.Modified;
-
-            try
+            var notFound = repository.UpDate(id, item);
+            if (!notFound)
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemExists(id))
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -73,9 +54,12 @@ namespace WebApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var bad = repository.Add(item);
 
-            db.Items.Add(item);
-            db.SaveChanges();
+            if (!bad)
+            {
+                return BadRequest();
+            }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -83,30 +67,22 @@ namespace WebApp.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
-            Item item = db.Items.Find(id);
-            if (item == null)
+            var notFound = repository.Delete(id);
+            if (!notFound)
             {
                 return NotFound();
             }
 
-            db.Items.Remove(item);
-            db.SaveChanges();
-
-            return Ok(item);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                repository.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool ItemExists(int id)
-        {
-            return db.Items.Count(e => e.Id == id) > 0;
         }
     }
 }

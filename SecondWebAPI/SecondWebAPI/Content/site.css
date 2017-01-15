@@ -1,0 +1,22 @@
+﻿body {
+    padding: 20px;
+}
+
+#allItems {
+    width: 50%;
+    float: left;
+}
+
+#addItem {
+    width: 50%;
+    float: right;
+}
+
+
+#container {
+    display: none;
+}
+
+#logOut {
+    display: none;
+}

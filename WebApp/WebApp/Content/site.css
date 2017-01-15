@@ -14,4 +14,8 @@
 .block{
     border-bottom:1px solid black;
     margin:0 20px 0 20px;
+    padding:10px 0 10px;
+}
+.container{
+    display:none;
 }
